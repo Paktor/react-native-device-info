@@ -567,7 +567,13 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
            (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && reactContext.checkCallingOrSelfPermission(Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED) ||
            (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && reactContext.checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED))) {
       TelephonyManager telMgr = (TelephonyManager) this.reactContext.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
-      constants.put("phoneNumber", telMgr.getLine1Number());
+      if (telMgr != null) {
+        try {
+          constants.put("phoneNumber", telMgr.getLine1Number());
+        } catch (SecurityException e) {
+          System.err.println("getLine1Number called with permission, but threw anyway: " + e.getMessage());
+        }
+      }
     } else {
       constants.put("phoneNumber", null);
     }
