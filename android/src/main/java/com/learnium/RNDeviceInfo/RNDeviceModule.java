@@ -562,22 +562,22 @@ public class RNDeviceModule extends ReactContextBaseJavaModule {
     constants.put("freeDiskStorage", this.getFreeDiskStorage());
     constants.put("installReferrer", this.getInstallReferrer());
 
-    if (reactContext != null &&
-         (reactContext.checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED ||
-           (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && reactContext.checkCallingOrSelfPermission(Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED) ||
-           (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && reactContext.checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED))) {
-      TelephonyManager telMgr = (TelephonyManager) this.reactContext.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
-      if (telMgr != null) {
-        try {
-          constants.put("phoneNumber", telMgr.getLine1Number());
-        } catch (SecurityException e) {
-          System.err.println("getLine1Number called with permission, but threw anyway: " + e.getMessage());
-        }
-      }
-    } else {
-      constants.put("phoneNumber", null);
-    }
-
+    // if (reactContext != null &&
+    //      (reactContext.checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED ||
+    //        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && reactContext.checkCallingOrSelfPermission(Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED) ||
+    //        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && reactContext.checkCallingOrSelfPermission(Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED))) {
+    //   TelephonyManager telMgr = (TelephonyManager) this.reactContext.getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+    //   if (telMgr != null) {
+    //     try {
+    //       constants.put("phoneNumber", telMgr.getLine1Number());
+    //     } catch (SecurityException e) {
+    //       System.err.println("getLine1Number called with permission, but threw anyway: " + e.getMessage());
+    //     }
+    //   }
+    // } else {
+    //   constants.put("phoneNumber", null);
+    // }
+    constants.put("phoneNumber", null);
     Runtime rt = Runtime.getRuntime();
     constants.put("maxMemory", rt.maxMemory());
     ActivityManager actMgr = (ActivityManager) this.reactContext.getSystemService(Context.ACTIVITY_SERVICE);
